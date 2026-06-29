@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CandidateDAO {
 
@@ -171,22 +173,59 @@ public class CandidateDAO {
 
     public int countEmployers() throws SQLException {
 
-    String sql = """
-            SELECT COUNT(*)
-            FROM employers
-            """;
+        String sql = """
+                SELECT COUNT(*)
+                FROM employers
+                """;
 
-    try (
-            Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery()
-    ) {
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
-        if (rs.next()) {
-            return rs.getInt(1);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+            return 0;
         }
-
-        return 0;
     }
-}
+
+    public List<Candidate> findAll() throws SQLException {
+
+        String sql = """
+                SELECT candidate_id,
+                       full_name,
+                       email,
+                       phone,
+                       education,
+                       skills
+                FROM candidates
+                ORDER BY candidate_id DESC
+                """;
+
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            List<Candidate> list = new ArrayList<>();
+
+            while (rs.next()) {
+
+                Candidate c = new Candidate();
+
+                c.setCandidateId(rs.getLong("candidate_id"));
+                c.setFullName(rs.getString("full_name"));
+                c.setEmail(rs.getString("email"));
+                c.setPhone(rs.getString("phone"));
+                c.setEducation(rs.getString("education"));
+                c.setSkills(rs.getString("skills"));
+
+                list.add(c);
+            }
+
+            return list;
+        }
+    }
 }

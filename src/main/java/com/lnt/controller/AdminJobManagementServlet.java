@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "AdminJobManagementServlet", urlPatterns = {"/admin/jobs"})
+@WebServlet(name = "AdminJobManagementServlet", urlPatterns = { "/admin/jobs" })
 public class AdminJobManagementServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,14 +31,13 @@ public class AdminJobManagementServlet extends HttpServlet {
 
         try (Connection c = DBConnection.getConnection()) {
             List<Map<String, Object>> jobs = new ArrayList<>();
-            try (PreparedStatement ps = c.prepareStatement("SELECT job_id, title, employer_id, active, created_at FROM jobs")) {
+            try (PreparedStatement ps = c.prepareStatement("SELECT job_id, title, employer_id, created_at FROM jobs")) {
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
                         Map<String, Object> r = new HashMap<>();
                         r.put("job_id", rs.getLong("job_id"));
                         r.put("title", rs.getString("title"));
                         r.put("employer_id", rs.getLong("employer_id"));
-                        r.put("active", rs.getInt("active"));
                         r.put("created_at", rs.getTimestamp("created_at"));
                         jobs.add(r);
                     }
@@ -46,7 +45,9 @@ public class AdminJobManagementServlet extends HttpServlet {
             }
             req.setAttribute("jobs", jobs);
             req.getRequestDispatcher("/admin/jobs.jsp").forward(req, resp);
-        } catch (SQLException e) {
+        } catch (
+
+        SQLException e) {
             throw new ServletException(e);
         }
     }
@@ -72,14 +73,7 @@ public class AdminJobManagementServlet extends HttpServlet {
                     ps.setLong(1, Long.parseLong(id));
                     ps.executeUpdate();
                 }
-            } else if ("deactivate".equals(action) || "activate".equals(action)) {
-                int val = "activate".equals(action) ? 1 : 0;
-                try (PreparedStatement ps = c.prepareStatement("UPDATE jobs SET active = ? WHERE job_id = ?")) {
-                    ps.setInt(1, val);
-                    ps.setLong(2, Long.parseLong(id));
-                    ps.executeUpdate();
-                }
-            }
+            } 
             resp.sendRedirect(req.getContextPath() + "/admin/jobs");
         } catch (SQLException e) {
             throw new ServletException(e);

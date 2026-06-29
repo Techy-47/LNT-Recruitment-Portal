@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "AdminUserManagementServlet", urlPatterns = {"/admin/users"})
+@WebServlet(name = "AdminUserManagementServlet", urlPatterns = { "/admin/users" })
 public class AdminUserManagementServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,8 +30,15 @@ public class AdminUserManagementServlet extends HttpServlet {
         }
 
         try (Connection c = DBConnection.getConnection()) {
-            req.setAttribute("candidates", listRows(c, "SELECT candidate_id, full_name, email, active FROM candidates"));
-            req.setAttribute("employers", listRows(c, "SELECT employer_id, company_name, email, active FROM employers"));
+            req.setAttribute(
+                    "candidates",
+                    listRows(c,
+                            "SELECT candidate_id, full_name, email FROM candidates"));
+
+            req.setAttribute(
+                    "employers",
+                    listRows(c,
+                            "SELECT employer_id, company_name, email FROM employers"));
             req.getRequestDispatcher("/admin/users.jsp").forward(req, resp);
         } catch (SQLException e) {
             throw new ServletException(e);

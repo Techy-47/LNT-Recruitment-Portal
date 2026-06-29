@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +14,7 @@
 
     <h5>Candidates</h5>
     <table class="table">
-        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Active</th><th>Actions</th></tr></thead>
+        <thead><tr><th>ID</th><th>Name</th><th>Email</th><td>${c.active}</td><th>Actions</th></tr></thead>
         <tbody>
         <c:forEach var="c" items="${candidates}">
             <tr>
