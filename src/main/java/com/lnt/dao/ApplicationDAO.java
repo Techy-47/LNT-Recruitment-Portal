@@ -54,16 +54,31 @@ public class ApplicationDAO {
     public List<Application> findByCandidateId(long candidateId) throws SQLException {
 
         String sql = """
-                SELECT application_id,
-                       candidate_id,
-                       job_id,
-                       status,
-                       applied_at
-                FROM applications
-                WHERE candidate_id = ?
-                ORDER BY applied_at DESC
-                """;
+                SELECT
+                    a.application_id,
+                    a.candidate_id,
+                    a.job_id,
+                    a.status,
+                    a.applied_at,
 
+                    j.title,
+                    j.location,
+                    j.salary,
+
+                    e.company_name
+
+                FROM applications a
+
+                JOIN jobs j
+                    ON a.job_id = j.job_id
+
+                JOIN employers e
+                    ON j.employer_id = e.employer_id
+
+                WHERE a.candidate_id = ?
+
+                ORDER BY a.applied_at DESC
+                """;
         try (
                 Connection con = DBConnection.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)) {
@@ -78,10 +93,33 @@ public class ApplicationDAO {
 
                     Application a = new Application();
 
-                    a.setApplicationId(rs.getLong("application_id"));
-                    a.setCandidateId(rs.getLong("candidate_id"));
-                    a.setJobId(rs.getLong("job_id"));
-                    a.setStatus(rs.getString("status"));
+                    a.setApplicationId(
+                            rs.getLong("application_id"));
+
+                    a.setCandidateId(
+                            rs.getLong("candidate_id"));
+
+                    a.setJobId(
+                            rs.getLong("job_id"));
+
+                    a.setStatus(
+                            rs.getString("status"));
+
+                    a.setAppliedAt(
+                            rs.getTimestamp("applied_at")
+                                    .toLocalDateTime());
+
+                    a.setJobTitle(
+                            rs.getString("title"));
+
+                    a.setCompanyName(
+                            rs.getString("company_name"));
+
+                    a.setLocation(
+                            rs.getString("location"));
+
+                    a.setSalary(
+                            rs.getString("salary"));
 
                     list.add(a);
                 }
@@ -212,22 +250,70 @@ public class ApplicationDAO {
 
     public int countAllApplications() throws SQLException {
 
-    String sql = """
-            SELECT COUNT(*)
-            FROM applications
-            """;
+        String sql = """
+                SELECT COUNT(*)
+                FROM applications
+                """;
 
-    try (
-            Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery()
-    ) {
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
-        if (rs.next()) {
-            return rs.getInt(1);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+            return 0;
         }
-
-        return 0;
     }
-}
+
+    public boolean hasAlreadyApplied(long candidateId, long jobId)
+            throws SQLException {
+
+        String sql = """
+                SELECT application_id
+                FROM applications
+                WHERE candidate_id = ?
+                AND job_id = ?
+                LIMIT 1
+                """;
+
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setLong(1, candidateId);
+            ps.setLong(2, jobId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
+    public int countByCandidate(long candidateId) throws SQLException {
+
+        String sql = """
+                SELECT COUNT(*)
+                FROM applications
+                WHERE candidate_id = ?
+                """;
+
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setLong(1, candidateId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+
+                return 0;
+            }
+        }
+    }
 }

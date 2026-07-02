@@ -97,6 +97,9 @@ public class CandidateDAO {
                     candidate.setSkills(
                             rs.getString("skills"));
 
+                    candidate.setResumePath(
+                            rs.getString("resume_path"));
+
                     return candidate;
                 }
 

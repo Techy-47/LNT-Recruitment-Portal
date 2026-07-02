@@ -2,142 +2,379 @@
     <%@ page import="java.util.List" %>
         <%@ page import="com.lnt.model.Application" %>
 
-            <html>
+            <% List<Application> applications =
+                (List<Application>) request.getAttribute("applications");
+                    %>
 
-            <head>
-                <title>Applications Received</title>
+                    <!DOCTYPE html>
+                    <html>
 
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-            </head>
+                    <head>
 
-            <body class="container mt-4">
+                        <meta charset="UTF-8">
 
-                <h2>Applications Received</h2>
+                        <title>Applications Received</title>
 
-                <% List<Application> applications =
-                    (List<Application>) request.getAttribute("applications");
-                        %>
+                        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+                            rel="stylesheet">
 
-                        <% if(applications==null || applications.isEmpty()){ %>
+                        <link rel="stylesheet"
+                            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-                            <div class="alert alert-info">
-                                No applications received yet.
+                        <link
+                            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+                            rel="stylesheet">
+
+                        <style>
+                            * {
+                                font-family: 'Poppins', sans-serif;
+                            }
+
+                            body {
+                                background: #F4F7FC;
+                            }
+
+                            .page-header {
+
+                                background: white;
+
+                                padding: 30px;
+
+                                border-radius: 20px;
+
+                                box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+
+                                margin: 40px auto 30px;
+
+                            }
+
+                            .page-title {
+
+                                font-weight: 700;
+
+                                margin-bottom: 5px;
+
+                            }
+
+                            .table-card {
+
+                                background: white;
+
+                                border-radius: 20px;
+
+                                overflow: hidden;
+
+                                box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+
+                            }
+
+                            .table {
+
+                                margin: 0;
+                            }
+
+                            .table thead {
+
+                                background: #2563EB;
+
+                                color: white;
+
+                            }
+
+                            .table th {
+
+                                border: none;
+
+                                padding: 18px;
+
+                                font-weight: 600;
+
+                            }
+
+                            .table td {
+
+                                vertical-align: middle;
+
+                                padding: 18px;
+
+                            }
+
+                            .table tbody tr {
+
+                                transition: .25s;
+
+                            }
+
+                            .table tbody tr:hover {
+
+                                background: #F8FAFC;
+
+                            }
+
+                            .badge {
+
+                                padding: 8px 14px;
+
+                                border-radius: 30px;
+
+                                font-weight: 500;
+
+                                font-size: 13px;
+
+                            }
+
+                            .btn {
+
+                                border-radius: 10px;
+
+                            }
+
+                            .resume-btn {
+
+                                font-size: 13px;
+
+                            }
+
+                            .empty-card {
+
+                                background: white;
+
+                                padding: 70px;
+
+                                text-align: center;
+
+                                border-radius: 20px;
+
+                                box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+
+                            }
+
+                            .action-group {
+
+                                display: flex;
+
+                                gap: 6px;
+
+                                flex-wrap: wrap;
+
+                            }
+                        </style>
+
+                    </head>
+
+                    <body>
+
+                        <div class="container">
+
+                            <div class="page-header d-flex justify-content-between align-items-center">
+
+                                <div>
+
+                                    <h2 class="page-title">
+
+                                        Applications Received
+
+                                    </h2>
+
+                                    <p class="text-muted mb-0">
+
+                                        Review applicants and update their hiring status.
+
+                                    </p>
+
+                                </div>
+
+                                <i class="bi bi-people-fill display-5 text-primary"></i>
+
                             </div>
 
-                            <% } else { %>
+                            <% if(applications==null || applications.isEmpty()){ %>
 
-                                <table class="table table-bordered table-hover align-middle">
+                                <div class="empty-card">
 
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>Application ID</th>
-                                            <th>Candidate</th>
-                                            <th>Job</th>
-                                            <th>Status</th>
-                                            <th>Resume</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
+                                    <i class="bi bi-file-earmark-person display-1 text-primary"></i>
 
-                                    <tbody>
+                                    <h3 class="mt-4">
 
-                                        <% for(Application app : applications){ %>
+                                        No Applications Yet
 
-                                            <tr>
+                                    </h3>
 
-                                                <td>
-                                                    <%= app.getApplicationId() %>
-                                                </td>
+                                    <p class="text-muted">
 
-                                                <td>
-                                                    <%= app.getCandidateName() %>
-                                                </td>
+                                        Applications submitted by candidates will appear here.
 
-                                                <td>
-                                                    <%= app.getJobTitle() %>
-                                                </td>
+                                    </p>
 
-                                                <td>
-                                                    <span class="badge bg-primary">
-                                                        <%= app.getStatus() %>
-                                                    </span>
-                                                </td>
+                                </div>
 
-                                                <td>
+                                <% } else { %>
 
-                                                    <% if(app.getResumePath() !=null){ %>
+                                    <div class="table-card">
 
-                                                        <a class="btn btn-sm btn-success" target="_blank"
-                                                            href="<%= request.getContextPath() + " /" +
-                                                            app.getResumePath() %>">
+                                        <table class="table align-middle">
 
-                                                            View Resume
+                                            <thead>
 
-                                                        </a>
+                                                <tr>
 
-                                                        <% } else { %>
+                                                    <th>ID</th>
 
-                                                            <span class="text-danger">
-                                                                No Resume
-                                                            </span>
+                                                    <th>Candidate</th>
 
-                                                            <% } %>
+                                                    <th>Job Title</th>
 
-                                                </td>
+                                                    <th>Status</th>
 
-                                                <td>
+                                                    <th>Resume</th>
 
-                                                    <form
-                                                        action="<%=request.getContextPath()%>/update-application-status"
-                                                        method="post" class="d-flex gap-1">
+                                                    <th width="300">
 
-                                                        <input type="hidden" name="applicationId"
-                                                            value="<%=app.getApplicationId()%>">
+                                                        Actions
 
-                                                        <button class="btn btn-success btn-sm" type="submit"
-                                                            name="status" value="Accepted">
+                                                    </th>
 
-                                                            Accept
+                                                </tr>
 
-                                                        </button>
+                                            </thead>
 
-                                                        <button class="btn btn-warning btn-sm" type="submit"
-                                                            name="status" value="Shortlisted">
+                                            <tbody>
 
-                                                            Shortlist
+                                                <% for(Application app : applications){ %>
 
-                                                        </button>
+                                                    <tr>
 
-                                                        <button class="btn btn-danger btn-sm" type="submit"
-                                                            name="status" value="Rejected">
+                                                        <td>
 
-                                                            Reject
+                                                            <strong>#<%=app.getApplicationId()%></strong>
 
-                                                        </button>
+                                                        </td>
 
-                                                    </form>
+                                                        <td>
 
-                                                </td>
+                                                            <i class="bi bi-person-circle text-primary me-2"></i>
 
-                                            </tr>
+                                                            <%=app.getCandidateName()%>
 
-                                            <% } %>
+                                                        </td>
 
-                                    </tbody>
+                                                        <td>
 
-                                </table>
+                                                            <%=app.getJobTitle()%>
 
-                                <% } %>
+                                                        </td>
 
-                                    <br>
+                                                        <td>
 
-                                    <a class="btn btn-secondary"
-                                        href="<%=request.getContextPath()%>/employer/dashboard.jsp">
+                                                            <% String status=app.getStatus(); String badge="bg-primary"
+                                                                ; if("Accepted".equalsIgnoreCase(status))
+                                                                badge="bg-success" ; else
+                                                                if("Rejected".equalsIgnoreCase(status))
+                                                                badge="bg-danger" ; else
+                                                                if("Shortlisted".equalsIgnoreCase(status))
+                                                                badge="bg-warning text-dark" ; %>
 
-                                        Back
+                                                                <span class="badge <%=badge%>">
 
-                                    </a>
+                                                                    <%=status%>
 
-            </body>
+                                                                </span>
 
-            </html>
+                                                        </td>
+
+                                                        <td>
+
+                                                            <% if(app.getResumePath()!=null){ %>
+
+                                                                <a class="btn btn-outline-primary btn-sm resume-btn"
+                                                                    target="_blank"
+                                                                    href="<%=request.getContextPath()%>/view-resume?file=<%=app.getResumePath()%>">
+
+                                                                    <i class="bi bi-file-earmark-pdf-fill"></i>
+
+                                                                    Resume
+
+                                                                </a>
+
+                                                                <% } else { %>
+
+                                                                    <span class="text-danger">
+
+                                                                        No Resume
+
+                                                                    </span>
+
+                                                                    <% } %>
+
+                                                        </td>
+
+                                                        <td>
+
+                                                            <form
+                                                                action="<%=request.getContextPath()%>/update-application-status"
+                                                                method="post" class="action-group">
+
+                                                                <input type="hidden" name="applicationId"
+                                                                    value="<%=app.getApplicationId()%>">
+
+                                                                <button class="btn btn-success btn-sm" type="submit"
+                                                                    name="status" value="Accepted">
+
+                                                                    <i class="bi bi-check-circle"></i>
+
+                                                                    Accept
+
+                                                                </button>
+
+                                                                <button class="btn btn-warning btn-sm" type="submit"
+                                                                    name="status" value="Shortlisted">
+
+                                                                    <i class="bi bi-star"></i>
+
+                                                                    Shortlist
+
+                                                                </button>
+
+                                                                <button class="btn btn-danger btn-sm" type="submit"
+                                                                    name="status" value="Rejected">
+
+                                                                    <i class="bi bi-x-circle"></i>
+
+                                                                    Reject
+
+                                                                </button>
+
+                                                            </form>
+
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <% } %>
+
+                                            </tbody>
+
+                                        </table>
+
+                                    </div>
+
+                                    <% } %>
+
+                                        <div class="mt-4">
+
+                                            <a class="btn btn-secondary"
+                                                href="<%=request.getContextPath()%>/employer-dashboard">
+
+                                                <i class="bi bi-arrow-left"></i>
+
+                                                Back to Dashboard
+
+                                            </a>
+
+                                        </div>
+
+                        </div>
+
+                    </body>
+
+                    </html>

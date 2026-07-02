@@ -60,7 +60,7 @@ public class JobPostServlet extends HttpServlet {
 
         try {
             boolean ok = jobDAO.create(j);
-            if (ok) resp.sendRedirect(req.getContextPath() + "/employer/dashboard.jsp");
+            if (ok) resp.sendRedirect(req.getContextPath() + "/employer-dashboard");
             else {
                 req.setAttribute("error", "Failed to post job");
                 req.getRequestDispatcher("/employer/post-job.jsp").forward(req, resp);

@@ -12,6 +12,9 @@ public class Application {
     private String candidateName;
     private String jobTitle;
     private String resumePath;
+    private String companyName;
+    private String location;
+    private String salary;
 
     public Application() {
     }
@@ -78,5 +81,29 @@ public class Application {
 
     public void setResumePath(String resumePath) {
         this.resumePath = resumePath;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getSalary() {
+        return salary;
+    }
+
+    public void setSalary(String salary) {
+        this.salary = salary;
     }
 }

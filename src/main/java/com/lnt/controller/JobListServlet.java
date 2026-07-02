@@ -18,17 +18,42 @@ public class JobListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req,
-                         HttpServletResponse resp)
+            HttpServletResponse resp)
             throws ServletException, IOException {
+
+        String title = req.getParameter("title");
+        String location = req.getParameter("location");
+        String skills = req.getParameter("skills");
+        String salary = req.getParameter("salary");
 
         try {
 
-            List<Job> jobs = jobDAO.findAllJobs();
+            List<Job> jobs;
+
+            if ((title != null && !title.isBlank())
+                    || (location != null && !location.isBlank())
+                    || (skills != null && !skills.isBlank())
+                    || (salary != null && !salary.isBlank())) {
+
+                jobs = jobDAO.searchJobs(
+                        title,
+                        location,
+                        skills,
+                        salary);
+
+            } else {
+
+                jobs = jobDAO.findAllJobs();
+
+            }
 
             req.setAttribute("jobs", jobs);
 
-            req.getRequestDispatcher("/candidate/jobs.jsp")
-                    .forward(req, resp);
+            req.setAttribute("skillsList", jobDAO.getAllSkills());
+
+            req.setAttribute("locationList", jobDAO.getAllLocations());
+
+            req.getRequestDispatcher("/candidate/jobs.jsp").forward(req, resp);
 
         } catch (SQLException e) {
             throw new ServletException(e);

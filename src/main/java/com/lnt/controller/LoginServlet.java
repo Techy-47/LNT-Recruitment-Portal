@@ -1,6 +1,8 @@
 package com.lnt.controller;
 
+import com.lnt.dao.ApplicationDAO;
 import com.lnt.dao.CandidateDAO;
+import com.lnt.dao.JobDAO;
 import com.lnt.model.Candidate;
 import com.lnt.util.PasswordUtil;
 import com.lnt.util.SessionUtil;
@@ -14,34 +16,65 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
+
     private final CandidateDAO candidateDAO = new CandidateDAO();
+    private final JobDAO jobDAO = new JobDAO();
+    private final ApplicationDAO applicationDAO = new ApplicationDAO();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
         req.getRequestDispatcher("/auth/login.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req,
+                          HttpServletResponse resp)
+            throws ServletException, IOException {
+
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
         try {
+
             Candidate candidate = candidateDAO.findByEmail(email);
-            if (candidate != null && PasswordUtil.checkPassword(password, candidate.getPasswordHash())) {
+
+            if (candidate != null &&
+                    PasswordUtil.checkPassword(
+                            password,
+                            candidate.getPasswordHash())) {
+
                 HttpSession session = SessionUtil.renewSession(req);
-                SessionUtil.setAttributes(session, java.util.Map.of(
+
+                SessionUtil.setAttributes(session, Map.of(
                         "candidateId", candidate.getCandidateId(),
                         "candidateName", candidate.getFullName()
                 ));
-                resp.sendRedirect(req.getContextPath() + "/candidate/dashboard.jsp");
+
+                int totalJobs = jobDAO.countAllJobs();
+
+                int totalApplications =
+                        applicationDAO.findByCandidateId(
+                                candidate.getCandidateId())
+                                .size();
+
+                req.setAttribute("totalJobs", totalJobs);
+                req.setAttribute("totalApplications", totalApplications);
+
+                resp.sendRedirect(req.getContextPath() + "/candidate/dashboard");
+
                 return;
             }
+
             req.setAttribute("error", "Invalid credentials");
-            req.getRequestDispatcher("/auth/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/auth/login.jsp")
+                    .forward(req, resp);
+
         } catch (SQLException e) {
             throw new ServletException(e);
         }
