@@ -316,4 +316,24 @@ public class ApplicationDAO {
             }
         }
     }
+
+    public boolean deleteByCandidateId(long candidateId)
+            throws SQLException {
+
+        String sql = """
+                DELETE FROM applications
+                WHERE candidate_id = ?
+                """;
+
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setLong(1, candidateId);
+
+            ps.executeUpdate();
+
+            return true;
+        }
+    }
 }

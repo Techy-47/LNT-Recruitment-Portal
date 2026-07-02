@@ -235,277 +235,323 @@
 
                         <div class="container">
 
-                            <div class="page-header">
+                            <% String success=(String) session.getAttribute("success"); String error=(String)
+                                session.getAttribute("error"); if(success !=null){ %>
 
-                                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                <div class="alert alert-success alert-dismissible fade show mt-4">
 
-                                    <div>
+                                    <i class="bi bi-check-circle-fill me-2"></i>
 
-                                        <h2>
+                                    <%=success%>
 
-                                            <i class="bi bi-people-fill me-2"></i>
-
-                                            Manage Candidates
-
-                                        </h2>
-
-                                        <p class="mb-0">
-
-                                            View and manage all registered candidates on the Recruitment Portal.
-
-                                        </p>
-
-                                    </div>
-
-                                    <div class="text-end">
-
-                                        <h3 class="fw-bold">
-
-                                            <%= candidates==null ? 0 : candidates.size() %>
-
-                                        </h3>
-
-                                        <small>Total Candidates</small>
-
-                                    </div>
+                                        <button class="btn-close" data-bs-dismiss="alert">
+                                        </button>
 
                                 </div>
 
-                            </div>
+                                <% session.removeAttribute("success"); } if(error !=null){ %>
 
-                            <div class="row mb-4">
+                                    <div class="alert alert-danger alert-dismissible fade show mt-4">
 
-                                <div class="col-md-4">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
 
-                                    <div class="card summary-card">
+                                        <%=error%>
 
-                                        <div class="card-body d-flex align-items-center">
+                                            <button class="btn-close" data-bs-dismiss="alert">
+                                            </button>
 
-                                            <div class="summary-icon">
+                                    </div>
+
+                                    <% session.removeAttribute("error"); } %>
+
+                                        <div class="page-header">
+
+                                            <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+                                                <div>
+
+                                                    <h2>
+
+                                                        <i class="bi bi-people-fill me-2"></i>
+
+                                                        Manage Candidates
+
+                                                    </h2>
+
+                                                    <p class="mb-0">
+
+                                                        View and manage all registered candidates on the Recruitment
+                                                        Portal.
+
+                                                    </p>
+
+                                                </div>
+
+                                                <div class="text-end">
+
+                                                    <h3 class="fw-bold">
+
+                                                        <%= candidates==null ? 0 : candidates.size() %>
+
+                                                    </h3>
+
+                                                    <small>Total Candidates</small>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-4">
+
+                                            <div class="col-md-4">
+
+                                                <div class="card summary-card">
+
+                                                    <div class="card-body d-flex align-items-center">
+
+                                                        <div class="summary-icon">
+
+                                                            <i class="bi bi-people-fill"></i>
+
+                                                        </div>
+
+                                                        <div class="ms-3">
+
+                                                            <h3 class="mb-0">
+
+                                                                <%= candidates==null ? 0 : candidates.size() %>
+
+                                                            </h3>
+
+                                                            <small class="text-muted">
+
+                                                                Registered Candidates
+
+                                                            </small>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-8">
+
+                                                <input type="text" id="searchInput" class="form-control search-box"
+                                                    placeholder="🔍 Search by name, email, education or skills...">
+
+                                            </div>
+
+                                        </div>
+
+                                        <% if(candidates==null || candidates.isEmpty()){ %>
+
+                                            <div class="empty-card">
 
                                                 <i class="bi bi-people-fill"></i>
 
-                                            </div>
+                                                <h3 class="mt-4">
 
-                                            <div class="ms-3">
-
-                                                <h3 class="mb-0">
-
-                                                    <%= candidates==null ? 0 : candidates.size() %>
+                                                    No Candidates Found
 
                                                 </h3>
 
-                                                <small class="text-muted">
+                                                <p class="text-muted">
 
-                                                    Registered Candidates
+                                                    There are currently no registered candidates.
 
-                                                </small>
+                                                </p>
 
                                             </div>
 
-                                        </div>
+                                            <% } else { %>
 
-                                    </div>
+                                                <div class="table-card">
 
-                                </div>
+                                                    <table class="table align-middle mb-0" id="candidateTable">
 
-                                <div class="col-md-8">
+                                                        <thead>
 
-                                    <input type="text" id="searchInput" class="form-control search-box"
-                                        placeholder="🔍 Search by name, email, education or skills...">
+                                                            <tr>
 
-                                </div>
+                                                                <th>Candidate</th>
 
-                            </div>
+                                                                <th>Contact</th>
 
-                            <% if(candidates==null || candidates.isEmpty()){ %>
+                                                                <th>Education</th>
 
-                                <div class="empty-card">
+                                                                <th>Skills</th>
 
-                                    <i class="bi bi-people-fill"></i>
+                                                                <th class="text-center">Actions</th>
 
-                                    <h3 class="mt-4">
+                                                            </tr>
 
-                                        No Candidates Found
+                                                        </thead>
 
-                                    </h3>
+                                                        <tbody>
+                                                            <% for(Candidate c : candidates){ %>
 
-                                    <p class="text-muted">
+                                                                <tr>
 
-                                        There are currently no registered candidates.
+                                                                    <td>
 
-                                    </p>
+                                                                        <div class="d-flex align-items-center">
 
-                                </div>
+                                                                            <div class="candidate-avatar">
 
-                                <% } else { %>
+                                                                                <i class="bi bi-person-fill"></i>
 
-                                    <div class="table-card">
+                                                                            </div>
 
-                                        <table class="table align-middle mb-0" id="candidateTable">
+                                                                            <div>
 
-                                            <thead>
+                                                                                <div class="fw-semibold">
 
-                                                <tr>
+                                                                                    <%=c.getFullName()%>
 
-                                                    <th>Candidate</th>
+                                                                                </div>
 
-                                                    <th>Contact</th>
+                                                                                <small class="text-muted">
 
-                                                    <th>Education</th>
+                                                                                    Candidate ID #
+                                                                                    <%=c.getCandidateId()%>
 
-                                                    <th>Skills</th>
+                                                                                </small>
 
-                                                    <th class="text-center">Actions</th>
+                                                                            </div>
 
-                                                </tr>
+                                                                        </div>
 
-                                            </thead>
+                                                                    </td>
 
-                                            <tbody>
-                                                <% for(Candidate c : candidates){ %>
+                                                                    <td>
 
-                                                    <tr>
+                                                                        <div>
 
-                                                        <td>
+                                                                            <i
+                                                                                class="bi bi-envelope-fill text-primary me-2"></i>
 
-                                                            <div class="d-flex align-items-center">
+                                                                            <%=c.getEmail()%>
 
-                                                                <div class="candidate-avatar">
+                                                                        </div>
 
-                                                                    <i class="bi bi-person-fill"></i>
+                                                                        <div class="mt-2">
 
-                                                                </div>
+                                                                            <i
+                                                                                class="bi bi-telephone-fill text-success me-2"></i>
 
-                                                                <div>
+                                                                            <%=c.getPhone()%>
 
-                                                                    <div class="fw-semibold">
+                                                                        </div>
 
-                                                                        <%=c.getFullName()%>
+                                                                    </td>
 
-                                                                    </div>
+                                                                    <td>
 
-                                                                    <small class="text-muted">
+                                                                        <%=c.getEducation()%>
 
-                                                                        Candidate ID #<%=c.getCandidateId()%>
+                                                                    </td>
 
-                                                                    </small>
+                                                                    <td>
 
-                                                                </div>
+                                                                        <% if(c.getSkills()!=null &&
+                                                                            !c.getSkills().isBlank()){ String[]
+                                                                            skills=c.getSkills().split(","); for(String
+                                                                            skill:skills){ %>
 
-                                                            </div>
+                                                                            <span class="skill">
 
-                                                        </td>
+                                                                                <%=skill.trim()%>
 
-                                                        <td>
+                                                                            </span>
 
-                                                            <div>
+                                                                            <% } }else{ %>
 
-                                                                <i class="bi bi-envelope-fill text-primary me-2"></i>
+                                                                                <span class="text-muted">
 
-                                                                <%=c.getEmail()%>
+                                                                                    Not Available
 
-                                                            </div>
+                                                                                </span>
 
-                                                            <div class="mt-2">
+                                                                                <% } %>
 
-                                                                <i class="bi bi-telephone-fill text-success me-2"></i>
+                                                                    </td>
 
-                                                                <%=c.getPhone()%>
+                                                                    <td class="text-center">
 
-                                                            </div>
+                                                                        <a href="<%=request.getContextPath()%>/admin/candidate?id=<%=c.getCandidateId()%>"
+                                                                            class="btn btn-outline-primary btn-sm me-2">
 
-                                                        </td>
+                                                                            <i class="bi bi-eye-fill"></i>
 
-                                                        <td>
+                                                                            View
 
-                                                            <%=c.getEducation()%>
+                                                                        </a>
 
-                                                        </td>
+                                                                        <form method="post"
+                                                                            action="<%=request.getContextPath()%>/admin/delete-candidate"
+                                                                            class="d-inline"
+                                                                            onsubmit="return confirmDelete('<%=c.getFullName()%>');">
 
-                                                        <td>
+                                                                            <input type="hidden" name="candidateId"
+                                                                                value="<%=c.getCandidateId()%>">
 
-                                                            <% if(c.getSkills()!=null && !c.getSkills().isBlank()){
-                                                                String[] skills=c.getSkills().split(","); for(String
-                                                                skill:skills){ %>
+                                                                            <button type="submit"
+                                                                                class="btn btn-outline-danger btn-sm">
 
-                                                                <span class="skill">
+                                                                                <i class="bi bi-trash-fill"></i>
 
-                                                                    <%=skill.trim()%>
+                                                                                Delete
 
-                                                                </span>
+                                                                            </button>
 
-                                                                <% } }else{ %>
+                                                                        </form>
 
-                                                                    <span class="text-muted">
+                                                                    </td>
 
-                                                                        Not Available
+                                                                </tr>
 
-                                                                    </span>
+                                                                <% } %>
 
-                                                                    <% } %>
+                                                        </tbody>
 
-                                                        </td>
+                                                    </table>
 
-                                                        <td class="text-center">
+                                                </div>
 
-                                                            <a href="<%=request.getContextPath()%>/admin/candidate?id=<%=c.getCandidateId()%>"
-                                                                class="btn btn-outline-primary btn-sm me-2">
+                                                <% } %>
 
-                                                                <i class="bi bi-eye-fill"></i>
+                                                    <div
+                                                        class="mt-4 d-flex justify-content-between align-items-center flex-wrap">
 
-                                                                View
+                                                        <div class="text-muted">
 
-                                                            </a>
+                                                            Showing
 
-                                                            <button class="btn btn-outline-danger btn-sm" disabled>
+                                                            <strong>
 
-                                                                <i class="bi bi-trash-fill"></i>
+                                                                <%= candidates==null ? 0 : candidates.size() %>
 
-                                                                Delete
+                                                            </strong>
 
-                                                            </button>
+                                                            candidate(s)
 
-                                                        </td>
+                                                        </div>
 
-                                                    </tr>
+                                                        <a href="<%=request.getContextPath()%>/admin/dashboard"
+                                                            class="btn btn-dark back-btn">
 
-                                                    <% } %>
+                                                            <i class="bi bi-arrow-left-circle me-2"></i>
 
-                                            </tbody>
+                                                            Back to Dashboard
 
-                                        </table>
+                                                        </a>
 
-                                    </div>
-
-                                    <% } %>
-
-                                        <div class="mt-4 d-flex justify-content-between align-items-center flex-wrap">
-
-                                            <div class="text-muted">
-
-                                                Showing
-
-                                                <strong>
-
-                                                    <%= candidates==null ? 0 : candidates.size() %>
-
-                                                </strong>
-
-                                                candidate(s)
-
-                                            </div>
-
-                                            <a href="<%=request.getContextPath()%>/admin/dashboard"
-                                                class="btn btn-dark back-btn">
-
-                                                <i class="bi bi-arrow-left-circle me-2"></i>
-
-                                                Back to Dashboard
-
-                                            </a>
-
-                                        </div>
+                                                    </div>
 
                         </div>
 
@@ -533,7 +579,19 @@
 
                             }
 
+                            function confirmDelete(name) {
+
+                                return confirm(
+                                    "Are you sure you want to delete\n\n"
+                                    + name
+                                    + "?\n\nThis action cannot be undone."
+                                );
+
+                            }
+
                         </script>
+                        <script
+                            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
                     </body>
 

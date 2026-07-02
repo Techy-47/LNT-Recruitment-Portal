@@ -231,4 +231,82 @@ public class CandidateDAO {
             return list;
         }
     }
+
+    public boolean delete(long candidateId)
+            throws SQLException {
+
+        String sql = """
+                DELETE FROM candidates
+                WHERE candidate_id = ?
+                """;
+
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setLong(1, candidateId);
+
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public boolean deleteCandidateCompletely(long candidateId)
+            throws SQLException {
+
+        String deleteApplications = """
+                DELETE FROM applications
+                WHERE candidate_id = ?
+                """;
+
+        String deleteCandidate = """
+                DELETE FROM candidates
+                WHERE candidate_id = ?
+                """;
+
+        Connection con = null;
+
+        try {
+
+            con = DBConnection.getConnection();
+
+            con.setAutoCommit(false);
+
+            try (
+                    PreparedStatement psApplications = con.prepareStatement(deleteApplications);
+
+                    PreparedStatement psCandidate = con.prepareStatement(deleteCandidate)) {
+
+                psApplications.setLong(1, candidateId);
+                psApplications.executeUpdate();
+
+                psCandidate.setLong(1, candidateId);
+
+                int rows = psCandidate.executeUpdate();
+
+                con.commit();
+
+                return rows > 0;
+            }
+
+        } catch (SQLException e) {
+
+            if (con != null) {
+                con.rollback();
+            }
+
+            throw e;
+
+        } finally {
+
+            if (con != null) {
+
+                con.setAutoCommit(true);
+
+                con.close();
+
+            }
+
+        }
+
+    }
 }

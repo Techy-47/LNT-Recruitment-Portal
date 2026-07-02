@@ -284,7 +284,7 @@
 
                 </div>
 
-
+<!-- 
                 <div class="col-md-4">
 
                     <a class="quick-card" href="${pageContext.request.contextPath}/candidate/upload-resume.jsp">
@@ -301,7 +301,7 @@
 
                     </a>
 
-                </div>
+                </div> -->
 
                 <div class="col-md-4">
 
