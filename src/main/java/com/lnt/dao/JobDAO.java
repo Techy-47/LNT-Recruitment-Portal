@@ -45,6 +45,7 @@ public class JobDAO {
                     j.setSalary(rs.getString("salary"));
                     j.setSkillsRequired(rs.getString("skills_required"));
                     j.setExperienceRequired(rs.getString("experience_required"));
+                    j.setActive(rs.getBoolean("active"));
                     Timestamp deadlineTs = rs.getTimestamp("deadline");
                     if (deadlineTs != null) {
                         j.setDeadline(deadlineTs.toLocalDateTime());
@@ -77,6 +78,7 @@ public class JobDAO {
                 job.setSalary(rs.getString("salary"));
                 job.setSkillsRequired(rs.getString("skills_required"));
                 job.setExperienceRequired(rs.getString("experience_required"));
+                job.setActive(rs.getBoolean("active"));
 
                 jobs.add(job);
             }
@@ -88,9 +90,16 @@ public class JobDAO {
     public List<Job> findAll() throws SQLException {
 
         String sql = """
-                SELECT job_id, employer_id, title, description,
-                       location, salary, skills_required,
-                       experience_required, deadline
+                 SELECT job_id,
+                employer_id,
+                title,
+                description,
+                location,
+                salary,
+                skills_required,
+                experience_required,
+                deadline,
+                active
                 FROM jobs
                 ORDER BY created_at DESC
                 """;
@@ -114,6 +123,7 @@ public class JobDAO {
                 j.setSalary(rs.getString("salary"));
                 j.setSkillsRequired(rs.getString("skills_required"));
                 j.setExperienceRequired(rs.getString("experience_required"));
+                j.setActive(rs.getBoolean("active"));
 
                 jobs.add(j);
             }
@@ -208,6 +218,7 @@ public class JobDAO {
                     j.setSalary(rs.getString("salary"));
                     j.setSkillsRequired(rs.getString("skills_required"));
                     j.setExperienceRequired(rs.getString("experience_required"));
+                    j.setActive(rs.getBoolean("active"));
 
                     Timestamp deadline = rs.getTimestamp("deadline");
                     if (deadline != null) {
@@ -306,6 +317,7 @@ public class JobDAO {
                     job.setSalary(rs.getString("salary"));
                     job.setSkillsRequired(rs.getString("skills_required"));
                     job.setExperienceRequired(rs.getString("experience_required"));
+                    job.setActive(rs.getBoolean("active"));
 
                     Timestamp deadline = rs.getTimestamp("deadline");
                     if (deadline != null) {
@@ -383,6 +395,76 @@ public class JobDAO {
 
             ps.setLong(1, jobId);
             ps.setLong(2, employerId);
+
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public List<Job> searchJobsForAdmin(String keyword) throws SQLException {
+
+        String sql = """
+                SELECT *
+                FROM jobs
+                WHERE title LIKE ?
+                   OR location LIKE ?
+                   OR CAST(employer_id AS CHAR) LIKE ?
+                ORDER BY created_at DESC
+                """;
+
+        List<Job> jobs = new ArrayList<>();
+
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            String search = "%" + (keyword == null ? "" : keyword.trim()) + "%";
+
+            ps.setString(1, search);
+            ps.setString(2, search);
+            ps.setString(3, search);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Job job = new Job();
+
+                    job.setJobId(rs.getLong("job_id"));
+                    job.setEmployerId(rs.getLong("employer_id"));
+                    job.setTitle(rs.getString("title"));
+                    job.setDescription(rs.getString("description"));
+                    job.setLocation(rs.getString("location"));
+                    job.setSalary(rs.getString("salary"));
+                    job.setSkillsRequired(rs.getString("skills_required"));
+                    job.setExperienceRequired(rs.getString("experience_required"));
+
+                    Timestamp deadline = rs.getTimestamp("deadline");
+                    if (deadline != null) {
+                        job.setDeadline(deadline.toLocalDateTime());
+                    }
+
+                    jobs.add(job);
+                }
+            }
+        }
+
+        return jobs;
+    }
+
+    public boolean updateActiveStatus(long jobId, boolean active) throws SQLException {
+
+        String sql = """
+                UPDATE jobs
+                SET active = ?
+                WHERE job_id = ?
+                """;
+
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setBoolean(1, active);
+            ps.setLong(2, jobId);
 
             return ps.executeUpdate() > 0;
         }
