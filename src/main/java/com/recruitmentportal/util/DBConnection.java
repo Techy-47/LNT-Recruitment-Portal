@@ -1,3 +1,8 @@
+/**
+ * Utility class used during development
+ * to generate BCrypt password hashes.
+ */
+
 package com.recruitmentportal.util;
 
 import java.sql.Connection;
@@ -24,8 +29,6 @@ public class DBConnection {
                             USERNAME,
                             PASSWORD
                     );
-
-            System.out.println("Database Connected Successfully!");
 
             return connection;
 

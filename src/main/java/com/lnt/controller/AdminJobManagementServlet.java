@@ -30,7 +30,6 @@ public class AdminJobManagementServlet extends HttpServlet {
 
             List<Job> jobs = jobDAO.findAll();
             req.setAttribute("jobs", jobs); 
-            System.out.println("Total Jobs = " + jobs.size());
 
             req.setAttribute("totalJobs", jobs.size());
 

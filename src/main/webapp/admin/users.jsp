@@ -27,7 +27,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <td>${c.active}</td>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

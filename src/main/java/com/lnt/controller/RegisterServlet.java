@@ -52,11 +52,9 @@ public class RegisterServlet extends HttpServlet {
             c.setEducation(education);
             c.setSkills(skills);
 
-            System.out.println("Trying to register: " + email);
+
 
             boolean ok = candidateDAO.create(c);
-
-            System.out.println("Registration Result = " + ok);
             if (ok) {
                 resp.sendRedirect(req.getContextPath() + "/auth/login.jsp");
             } else {

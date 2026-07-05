@@ -62,11 +62,8 @@ public class ResumeUploadServlet extends HttpServlet {
                 }
 
                 String uploads ="C:\\RecruitmentPortalUploads\\resumes";
-                System.out.println("Upload Path = " + uploads);
 
                 File dir = new File(uploads);
-
-                System.out.println("Absolute Path = " + dir.getAbsolutePath());
 
                 if (!dir.exists()) {
                         dir.mkdirs();
