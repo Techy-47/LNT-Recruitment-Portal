@@ -12,6 +12,16 @@ The application is built using Java EE technologies and follows the **Model-View
 
 ---
 
+![Java](https://img.shields.io/badge/Java-21-orange)
+![JSP](https://img.shields.io/badge/JSP-Jakarta-blue)
+![Servlet](https://img.shields.io/badge/Servlet-Jakarta-success)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
+![Maven](https://img.shields.io/badge/Maven-Build-red)
+![License](https://img.shields.io/badge/License-Educational-green)
+ 
+---
+
 # ✨ Features
 
 ## 👨‍💼 Candidate Module
