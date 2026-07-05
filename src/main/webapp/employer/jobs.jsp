@@ -297,14 +297,14 @@
 
                                         <div class="mt-5">
 
-                                            <a href="<%=request.getContextPath()%>/employer-dashboard"
-                                                class="btn btn-secondary back-btn">
+                                            <a href="${pageContext.request.contextPath}/employer/dashboard"
+                                                    class="btn btn-dark ms-auto">
 
-                                                <i class="bi bi-arrow-left"></i>
+                                                    <i class="bi bi-house-door"></i>
 
-                                                Back to Dashboard
+                                                    Dashboard
 
-                                            </a>
+                                                </a>
 
                                         </div>
 

@@ -1,5 +1,10 @@
 package com.lnt.controller;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import com.lnt.util.DBConnection;
 
 import jakarta.servlet.ServletException;
@@ -8,11 +13,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 @WebServlet(name = "AdminUserActionServlet", urlPatterns = {"/admin/users/action"})
 public class AdminUserActionServlet extends HttpServlet {

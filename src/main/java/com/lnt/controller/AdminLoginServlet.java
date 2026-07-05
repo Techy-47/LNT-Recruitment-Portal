@@ -1,5 +1,8 @@
 package com.lnt.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import com.lnt.dao.AdminDAO;
 import com.lnt.model.Admin;
 import com.lnt.util.PasswordUtil;
@@ -11,9 +14,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet(name = "AdminLoginServlet", urlPatterns = {"/admin/login"})
 public class AdminLoginServlet extends HttpServlet {

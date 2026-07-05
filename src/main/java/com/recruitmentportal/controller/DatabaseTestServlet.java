@@ -1,14 +1,16 @@
 package com.recruitmentportal.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+
 import com.recruitmentportal.util.DBConnection;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/test-db")
 public class DatabaseTestServlet extends HttpServlet {

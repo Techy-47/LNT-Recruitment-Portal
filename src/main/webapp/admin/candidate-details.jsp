@@ -310,12 +310,12 @@
 
                                         </button>
 
-                                        <a href="<%=request.getContextPath()%>/admin/candidates"
-                                            class="btn btn-dark action-btn">
+                                        <a href="${pageContext.request.contextPath}/admin/dashboard"
+                                            class="btn btn-dark ms-auto">
 
-                                            <i class="bi bi-arrow-left-circle me-2"></i>
+                                            <i class="bi bi-house-door"></i>
 
-                                            Back to Candidates
+                                            Dashboard
 
                                         </a>
 

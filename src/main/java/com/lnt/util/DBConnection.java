@@ -1,10 +1,10 @@
 package com.lnt.util;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 public class DBConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/recruitment_portal?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";

@@ -165,6 +165,54 @@
 
             </div>
 
+            <div class="row g-4 mb-5">
+
+                <div class="col-lg-6">
+
+                    <div class="report-card">
+
+                        <h5 class="mb-4">
+
+                            <i class="bi bi-pie-chart-fill text-primary me-2"></i>
+
+                            Application Status Distribution
+
+                        </h5>
+
+                        <div style="height:320px">
+
+                            <canvas id="applicationChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="report-card">
+
+                        <h5 class="mb-4">
+
+                            <i class="bi bi-bar-chart-fill text-primary me-2"></i>
+
+                            Recruitment Portal Overview
+
+                        </h5>
+
+                        <div style="height:320px">
+                            <canvas id="overviewChart"> </canvas>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- chart code -->
+
             <div class="row g-4">
                 <div class="col-md-6 col-lg-3">
 
@@ -175,6 +223,12 @@
                             <i class="bi bi-people-fill"></i>
 
                         </div>
+
+                        <h2 class="fw-bold mb-1">
+
+                            ${candidateCount}
+
+                        </h2>
 
                         <h5>Candidate Report</h5>
 
@@ -206,6 +260,11 @@
                             <i class="bi bi-buildings-fill"></i>
 
                         </div>
+                        <h2 class="fw-bold mb-1">
+
+                            ${employerCount}
+
+                        </h2>
 
                         <h5>Employer Report</h5>
 
@@ -237,6 +296,11 @@
                             <i class="bi bi-briefcase-fill"></i>
 
                         </div>
+                        <h2 class="fw-bold mb-1">
+
+                            ${jobCount}
+
+                        </h2>
 
                         <h5>Job Report</h5>
 
@@ -268,6 +332,11 @@
                             <i class="bi bi-file-earmark-text-fill"></i>
 
                         </div>
+                        <h2 class="fw-bold mb-1">
+
+                            ${applicationCount}
+
+                        </h2>
 
                         <h5>Application Report</h5>
 
@@ -294,19 +363,154 @@
 
             <div class="mt-5 text-end">
 
-                <a href="${pageContext.request.contextPath}/admin/dashboard" class="btn btn-dark back-btn">
-
-                    <i class="bi bi-arrow-left-circle me-2"></i>
-
-                    Back to Dashboard
-
+                <a href="${pageContext.request.contextPath}/admin/dashboard" class="btn btn-dark ms-auto">
+                    <i class="bi bi-house-door"></i>
+                    Dashboard
                 </a>
-
             </div>
-
         </div>
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            new Chart(document.getElementById('applicationChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Applied',
+                        'Under Review',
+                        'Shortlisted',
+                        'Interview',
+                        'Selected',
+                        'Rejected'
+                    ],
+                    datasets: [{
+                        data: [
+                            ${ appliedCount },
+                            ${ underReviewCount },
+                            ${ shortlistedCount },
+                            ${ interviewCount },
+                            ${ selectedCount },
+                            ${ rejectedCount }
+                        ],
+
+                        backgroundColor: [
+
+                            '#3B82F6',
+
+                            '#F59E0B',
+
+                            '#8B5CF6',
+
+                            '#06B6D4',
+
+                            '#10B981',
+
+                            '#EF4444'
+
+                        ]
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    plugins: {
+
+                        legend: {
+
+                            position: 'bottom'
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+            new Chart(document.getElementById('overviewChart'), {
+
+                type: 'bar',
+
+                data: {
+
+                    labels: [
+
+                        'Candidates',
+
+                        'Employers',
+
+                        'Jobs',
+
+                        'Applications'
+
+                    ],
+
+                    datasets: [{
+
+                        label: 'Count',
+
+                        data: [
+
+                            ${ candidateCount },
+
+                            ${ employerCount },
+
+                            ${ jobCount },
+
+                            ${ applicationCount }
+
+                        ],
+
+                        backgroundColor: [
+
+                            '#2563EB',
+
+                            '#10B981',
+
+                            '#F59E0B',
+
+                            '#8B5CF6'
+
+                        ],
+
+                        borderRadius: 8
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true
+
+                        }
+
+                    },
+
+                    plugins: {
+
+                        legend: {
+
+                            display: false
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        </script>
 
     </body>
 

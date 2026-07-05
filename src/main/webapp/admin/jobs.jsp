@@ -409,196 +409,106 @@
                                             </td>
 
                                             <td>
-
                                                 Employer #${j.employerId}
-
                                             </td>
 
                                             <td>
-
                                                 <i class="bi bi-geo-alt-fill text-danger me-1"></i>
-
                                                 ${j.location}
-
                                             </td>
-
                                             <td>
-
                                                 ₹ ${j.salary}
-
                                             </td>
-
                                             <td>
-
                                                 <c:choose>
-
                                                     <c:when test="${j.active}">
-
                                                         <span class="badge bg-success">
-
                                                             Active
-
                                                         </span>
-
                                                     </c:when>
-
                                                     <c:otherwise>
-
                                                         <span class="badge bg-danger">
-
                                                             Inactive
-
                                                         </span>
-
                                                     </c:otherwise>
-
                                                 </c:choose>
-
                                             </td>
-
                                             <td class="text-center">
-
                                                 <a href="${pageContext.request.contextPath}/job-details?id=${j.jobId}"
                                                     class="btn btn-outline-primary btn-sm me-1">
-
                                                     <i class="bi bi-eye-fill"></i>
-
                                                 </a>
-
                                                 <a href="${pageContext.request.contextPath}/admin/edit-job?id=${j.jobId}"
                                                     class="btn btn-outline-warning btn-sm me-1">
-
                                                     <i class="bi bi-pencil-fill"></i>
-
                                                 </a>
-
                                                 <form method="post"
                                                     action="${pageContext.request.contextPath}/admin/jobs"
                                                     class="d-inline">
-
                                                     <input type="hidden" name="id" value="${j.jobId}">
-
                                                     <c:choose>
-
                                                         <c:when test="${j.active}">
-
                                                             <button type="submit" name="action" value="deactivate"
                                                                 class="btn btn-outline-secondary btn-sm me-1">
-
                                                                 <i class="bi bi-pause-fill"></i>
-
                                                             </button>
-
                                                         </c:when>
-
                                                         <c:otherwise>
-
                                                             <button type="submit" name="action" value="activate"
                                                                 class="btn btn-outline-success btn-sm me-1">
-
                                                                 <i class="bi bi-play-fill"></i>
-
                                                             </button>
-
                                                         </c:otherwise>
-
                                                     </c:choose>
-
                                                     <button type="submit" name="action" value="delete"
                                                         class="btn btn-outline-danger btn-sm"
                                                         onclick="return confirmDelete('${j.title}')">
-
                                                         <i class="bi bi-trash-fill"></i>
-
                                                     </button>
-
                                                 </form>
-
                                             </td>
-
                                         </tr>
-
                                     </c:forEach>
-
                                 </tbody>
-
                             </table>
-
                         </div>
-
                     </c:otherwise>
-
                 </c:choose>
                 <div class="mt-4 d-flex justify-content-between align-items-center flex-wrap">
-
                     <div class="text-muted">
-
                         Showing
-
                         <strong>
-
                             ${jobs.size()}
-
                         </strong>
-
                         job(s)
-
                     </div>
-
-                    <a href="${pageContext.request.contextPath}/admin/dashboard" class="btn btn-dark back-btn">
-
-                        <i class="bi bi-arrow-left-circle me-2"></i>
-
-                        Back to Dashboard
-
+                    <a href="${pageContext.request.contextPath}/admin/dashboard" class="btn btn-dark ms-auto">
+                        <i class="bi bi-house-door"></i>
+                        Dashboard
                     </a>
-
                 </div>
-
             </div>
-
             <script>
-
                 const searchInput = document.getElementById("searchInput");
-
                 if (searchInput) {
-
                     searchInput.addEventListener("keyup", function () {
-
                         const filter = this.value.toLowerCase();
-
                         const rows = document.querySelectorAll("#jobTable tbody tr");
-
                         rows.forEach(function (row) {
-
                             const text = row.innerText.toLowerCase();
-
                             row.style.display = text.includes(filter) ? "" : "none";
-
                         });
-
                     });
-
                 }
-
                 function confirmDelete(title) {
-
                     return confirm(
-
                         "Are you sure you want to delete\n\n"
-
                         + title +
-
                         "\n\nThis action cannot be undone."
-
                     );
-
                 }
-
             </script>
-
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
         </body>
 
         </html>

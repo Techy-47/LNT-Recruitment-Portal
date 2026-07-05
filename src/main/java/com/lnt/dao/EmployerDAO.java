@@ -1,15 +1,14 @@
 package com.lnt.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.lnt.model.Employer;
 import com.lnt.util.DBConnection;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class EmployerDAO {
 
@@ -240,6 +239,26 @@ public class EmployerDAO {
 
             }
 
+        }
+    }
+
+    public int countAllEmployers() throws SQLException {
+
+        String sql = """
+                SELECT COUNT(*)
+                FROM employers
+                """;
+
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+            return 0;
         }
     }
 }

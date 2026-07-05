@@ -1,5 +1,8 @@
 package com.lnt.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import com.lnt.dao.JobDAO;
 import com.lnt.model.Job;
 
@@ -9,9 +12,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet("/admin/job-details")
 public class AdminJobDetailsServlet extends HttpServlet {

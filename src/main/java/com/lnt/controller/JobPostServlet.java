@@ -1,5 +1,10 @@
 package com.lnt.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+
 import com.lnt.dao.JobDAO;
 import com.lnt.model.Job;
 
@@ -8,11 +13,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 
 @WebServlet(name = "JobPostServlet", urlPatterns = {"/employer/post-job"})
 public class JobPostServlet extends HttpServlet {

@@ -1,8 +1,5 @@
 package com.lnt.dao;
 
-import com.lnt.model.Job;
-import com.lnt.util.DBConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.lnt.model.Job;
+import com.lnt.util.DBConnection;
 
 public class JobDAO {
 
@@ -30,7 +30,7 @@ public class JobDAO {
     }
 
     public List<Job> findByEmployerId(long employerId) throws SQLException {
-        String sql = "SELECT job_id, employer_id, title, description, location, salary, skills_required, experience_required, deadline FROM jobs WHERE employer_id = ?";
+        String sql = "SELECT job_id, employer_id, title, description, location, salary, skills_required, experience_required, deadline, active FROM jobs WHERE employer_id = ?";
         try (Connection c = DBConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setLong(1, employerId);
             try (ResultSet rs = ps.executeQuery()) {

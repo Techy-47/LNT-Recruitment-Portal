@@ -1,5 +1,9 @@
 package com.lnt.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
 import com.lnt.dao.JobDAO;
 import com.lnt.model.Job;
 
@@ -9,16 +13,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.io.IOException;
 
 @WebServlet(name = "AdminJobManagementServlet", urlPatterns = { "/admin/jobs" })
 public class AdminJobManagementServlet extends HttpServlet {

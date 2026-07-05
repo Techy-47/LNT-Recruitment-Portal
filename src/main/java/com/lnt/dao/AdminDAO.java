@@ -1,12 +1,12 @@
 package com.lnt.dao;
 
-import com.lnt.model.Admin;
-import com.lnt.util.DBConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.lnt.model.Admin;
+import com.lnt.util.DBConnection;
 
 public class AdminDAO {
 

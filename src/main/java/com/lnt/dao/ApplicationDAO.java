@@ -1,14 +1,14 @@
 package com.lnt.dao;
 
-import com.lnt.model.Application;
-import com.lnt.util.DBConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.lnt.model.Application;
+import com.lnt.util.DBConnection;
 
 public class ApplicationDAO {
 
@@ -334,6 +334,78 @@ public class ApplicationDAO {
             ps.executeUpdate();
 
             return true;
+        }
+    }
+
+    public int countAppliedApplications() throws SQLException {
+
+        String sql = "SELECT COUNT(*) FROM applications WHERE status='Applied'";
+
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+    }
+
+    public int countUnderReviewApplications() throws SQLException {
+
+        String sql = "SELECT COUNT(*) FROM applications WHERE status='Under Review'";
+
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+    }
+
+    public int countShortlistedApplications() throws SQLException {
+
+        String sql = "SELECT COUNT(*) FROM applications WHERE status='Shortlisted'";
+
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+    }
+
+    public int countInterviewScheduledApplications() throws SQLException {
+
+        String sql = "SELECT COUNT(*) FROM applications WHERE status='Interview Scheduled'";
+
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+    }
+
+    public int countSelectedApplications() throws SQLException {
+
+        String sql = "SELECT COUNT(*) FROM applications WHERE status='Selected'";
+
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+    }
+
+    public int countRejectedApplications() throws SQLException {
+
+        String sql = "SELECT COUNT(*) FROM applications WHERE status='Rejected'";
+
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            return rs.next() ? rs.getInt(1) : 0;
         }
     }
 }

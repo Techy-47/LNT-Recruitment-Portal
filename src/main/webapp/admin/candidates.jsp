@@ -542,12 +542,12 @@
 
                                                         </div>
 
-                                                        <a href="<%=request.getContextPath()%>/admin/dashboard"
-                                                            class="btn btn-dark back-btn">
+                                                        <a href="${pageContext.request.contextPath}/employer/dashboard"
+                                                            class="btn btn-dark ms-auto">
 
-                                                            <i class="bi bi-arrow-left-circle me-2"></i>
+                                                            <i class="bi bi-house-door"></i>
 
-                                                            Back to Dashboard
+                                                            Dashboard
 
                                                         </a>
 

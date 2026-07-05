@@ -1,5 +1,9 @@
 package com.lnt.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Map;
+
 import com.lnt.dao.ApplicationDAO;
 import com.lnt.dao.CandidateDAO;
 import com.lnt.dao.JobDAO;
@@ -13,10 +17,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Map;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {

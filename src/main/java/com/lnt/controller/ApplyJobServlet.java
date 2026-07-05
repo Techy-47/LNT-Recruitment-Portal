@@ -1,16 +1,17 @@
 package com.lnt.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import com.lnt.dao.ApplicationDAO;
 import com.lnt.model.Application;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/apply-job")
 public class ApplyJobServlet extends HttpServlet {
