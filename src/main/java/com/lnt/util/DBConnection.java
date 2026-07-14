@@ -17,7 +17,7 @@ public class DBConnection {
     private static final String PASS = System.getenv().getOrDefault("DB_PASS", "root123");
 
     private static final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE
-            + "?sslMode=REQUIRED&serverTimezone=UTC"
+            + "?sslMode=REQUIRED"
             + "&allowPublicKeyRetrieval=true"
             + "&serverTimezone=UTC";
 
@@ -42,6 +42,10 @@ public class DBConnection {
         config.setConnectionTimeout(CONNECTION_TIMEOUT_MS);
 
         config.setPoolName("recruitment-portal-pool");
+
+        config.setMinimumIdle(2);
+        config.setIdleTimeout(600000);
+        config.setMaxLifetime(1800000);
 
         return new HikariDataSource(config);
     }
