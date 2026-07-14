@@ -362,7 +362,7 @@
 
                                         <div class="mt-4">
 
-                                            <a href="${pageContext.request.contextPath}/employer/dashboard"
+                                            <a href="${pageContext.request.contextPath}/employer-dashboard"
                                                 class="btn btn-dark ms-auto">
 
                                                 <i class="bi bi-house-door"></i>
