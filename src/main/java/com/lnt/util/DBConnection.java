@@ -17,7 +17,7 @@ public class DBConnection {
     private static final String PASS = System.getenv().getOrDefault("DB_PASS", "root123");
 
     private static final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE
-            + "?useSSL=false"
+            + "?sslMode=REQUIRED&serverTimezone=UTC"
             + "&allowPublicKeyRetrieval=true"
             + "&serverTimezone=UTC";
 
